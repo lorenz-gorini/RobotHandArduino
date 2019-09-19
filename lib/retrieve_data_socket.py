@@ -1,18 +1,31 @@
 import socket
 
-def main():
-    host = "192.168.2.55"
-    port = 23
+class DataFromSocket:
+    """
+    There is no asynchronous programming in Python (one single lock).
+    So there are some steps:
+        1. Read the single data from Arduino board (sensors)
+        2. Once we store 1000 data points, it creates one data_batch
+        3.
+    """
 
-    mySocket = socket.socket()
-    mySocket.connect((host,port))
+    def __init__(self, host="192.168.2.55", port=23):
+        self.host = host
+        self.port = port
 
-    message = input(" -> ")
-    while True:
-        mySocket.send(message.encode())
-        data = mySocket.recv(200).decode()
-
-        print(data)
+        self.mySocket = socket.socket()
+        self.mySocket.connect((self.host, self.port))
+        self.data_batch = []
+        self.stored_data = []
+        print("Press a key")
+        message = input(" -> ")
+        while True:
+            while len(self.data_batch) < 1000:
+                self.mySocket.send(message.encode())
+                single_data = self.mySocket.recv(2048).decode()
+                if single_data != "\r\n":
+                    self.data_batch.append(single_data)
+            self.stored_data.append(self.data_batch)
 
 if __name__ == "__main__":
-    main()
+    raw_data = DataFromSocket()
