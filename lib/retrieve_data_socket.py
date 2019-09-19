@@ -6,7 +6,10 @@ class DataFromSocket:
     So there are some steps:
         1. Read the single data from Arduino board (sensors)
         2. Once we store 1000 data points, it creates one data_batch
-        3.
+        3. Analyze that batch and check if it is an interesting batch (or maximum amplitude) with some input:
+            a. If it is good, analyze
+            b. If it is bad, keep on storing the next batches
+        4.
     """
 
     def __init__(self, host="192.168.2.55", port=23):
