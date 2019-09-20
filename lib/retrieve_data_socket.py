@@ -1,15 +1,17 @@
 import socket
 
+
+
 class DataFromSocket:
     """
-    There is no asynchronous programming in Python (one single lock).
-    So there are some steps:
+    This will be one thread that will store the data to create a stack of data_batches
+    Steps:
         1. Read the single data from Arduino board (sensors)
         2. Once we store 1000 data points, it creates one data_batch
-        3. Analyze that batch and check if it is an interesting batch (or maximum amplitude) with some input:
-            a. If it is good, analyze
-            b. If it is bad, keep on storing the next batches
-        4.
+        3. It creates a stack (Queue class) of data_batches and the Analyzer will take the first_in and delete it from
+        the stack
+        4. These data_batches will be analyzed by another Thread which will perform the FFT to generate the
+        frequency spectrum
     """
 
     def __init__(self, host="192.168.2.55", port=23):
@@ -32,3 +34,4 @@ class DataFromSocket:
 
 if __name__ == "__main__":
     raw_data = DataFromSocket()
+
