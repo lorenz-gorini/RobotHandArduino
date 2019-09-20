@@ -1,6 +1,6 @@
 import socket
 
-
+# TODO Watch https://www.youtube.com/watch?v=GqHLztqy0PU (end)
 
 class DataFromSocket:
     """
@@ -8,10 +8,7 @@ class DataFromSocket:
     Steps:
         1. Read the single data from Arduino board (sensors)
         2. Once we store 1000 data points, it creates one data_batch
-        3. It creates a stack (Queue class) of data_batches and the Analyzer will take the first_in and delete it from
-        the stack
-        4. These data_batches will be analyzed by another Thread which will perform the FFT to generate the
-        frequency spectrum
+        3. It creates a stack (Queue class) of data_batches
     """
 
     def __init__(self, host="192.168.2.55", port=23):
