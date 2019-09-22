@@ -37,4 +37,5 @@ class TrainingFingers(TrainingDataset):
 class TrainingHand(TrainingDataset):
     pass
 
-class
+if __name__ == "__main__":
+    TrainingDataset(Action.open, Fingers.index)
