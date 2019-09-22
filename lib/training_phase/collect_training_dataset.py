@@ -21,10 +21,10 @@ class Action(Enum):
 
 class TrainingDataset:
 
-    def __init__(self, action: str, finger: str):
+    def __init__(self, action: int, finger: int):
         self.action = action
         self.finger = finger
-        self.label = Action.
+        self.label = action * finger
     def collect(self):
         print(f"Lift the {self.finger_num}")
     def categorize(self, label):
