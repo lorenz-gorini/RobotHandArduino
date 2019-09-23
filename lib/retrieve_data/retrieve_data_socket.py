@@ -1,6 +1,8 @@
 import socket
 
 # TODO Watch https://www.youtube.com/watch?v=GqHLztqy0PU (end)
+from lib.Main_thread import stop_input
+
 
 class DataFromSocket:
     """
@@ -18,16 +20,16 @@ class DataFromSocket:
         self.mySocket = socket.socket()
         self.mySocket.connect((self.host, self.port))
         self.data_batch = []
-        self.stored_data = []
         print("Press a key")
-        message = input(" -> ")
-        while True:
+        self.message = input(" -> ")
+    def store_data(self):
+        while not stop_input:
             while len(self.data_batch) < 1000:
-                self.mySocket.send(message.encode())
+                self.mySocket.send(self.message.encode())
                 single_data = self.mySocket.recv(2048).decode()
                 if single_data != "\r\n":
                     self.data_batch.append(single_data)
-            self.stored_data.append(self.data_batch)
+            stored_data_batches.append(self.data_batch)
 
 if __name__ == "__main__":
     raw_data = DataFromSocket()
