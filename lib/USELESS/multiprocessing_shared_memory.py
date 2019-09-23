@@ -46,43 +46,43 @@ if __name__ == "__main__":
 
 
 # ================= EXAMPLE 2: =====================
-
-
-import multiprocessing as mp
-
-def init(aa, vv):
-    global a, v
-    a = aa
-    v = vv
-
-def worker(i):
-    a[i] = v.value * i
-
-if __name__ == "__main__":
-    N = 10
-    a = Array('i', [0]*N)
-    v = mp.Value('i', 3)
-    p = mp.Pool(initializer=init, initargs=(a, v))
-    p.map(worker, range(N))
-    print(a[:])
-
-
-# ============== EXAMPLE 3: ===============
-
-from multiprocessing import Process, Value, Array
-
-def f(n, a):
-    n.value = 3.1415927
-    for i in range(len(a)):
-        a[i] = -a[i]
-
-if __name__ == '__main__':
-    num = Value('d', 0.0)
-    arr = Array('i', range(10))
-
-    p = Process(target=f, args=(num, arr))
-    p.start()
-    p.join()
-
-    print(num.value)
-    print(arr[:])
+#
+#
+# import multiprocessing as mp
+#
+# def init(aa, vv):
+#     global a, v
+#     a = aa
+#     v = vv
+#
+# def worker(i):
+#     a[i] = v.value * i
+#
+# if __name__ == "__main__":
+#     N = 10
+#     a = mp.Array('i', [0]*N)
+#     v = mp.Value('i', 3)
+#     p = mp.Pool(initializer=init, initargs=(a, v))
+#     p.map(worker, range(N))
+#     print(a[:])
+#
+#
+# # ============== EXAMPLE 3: ===============
+#
+# from multiprocessing import Process, Value, Array
+#
+# def f(n, a):
+#     n.value = 3.1415927
+#     for i in range(len(a)):
+#         a[i] = -a[i]
+#
+# if __name__ == '__main__':
+#     num = Value('d', 0.0)
+#     arr = Array('i', range(10))
+#
+#     p = Process(target=f, args=(num, arr))
+#     p.start()
+#     p.join()
+#
+#     print(num.value)
+#     print(arr[:])
