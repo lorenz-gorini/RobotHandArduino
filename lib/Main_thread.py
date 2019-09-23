@@ -9,3 +9,5 @@ Threads:
     3. It analyzes the frequency spectrum as the input to feed the ML algorithm and to predict the label (to move
     the robot arm)
 """
+stop_input = False
+stored_data_batches = []

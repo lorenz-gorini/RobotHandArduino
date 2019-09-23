@@ -8,7 +8,7 @@ from enum import Enum
 
 
 class Fingers(Enum):
-    thumb = 0,
+    thumb = 0
     index = 1
     middle = 2
     ring = 3
