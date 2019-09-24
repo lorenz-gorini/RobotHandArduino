@@ -1,7 +1,9 @@
+import random
 import socket
 
 # TODO Watch https://www.youtube.com/watch?v=GqHLztqy0PU (end)
-from lib.Main_thread import stop_input
+import time
+
 
 
 class DataFromSocket:
@@ -22,7 +24,7 @@ class DataFromSocket:
         self.data_batch = []
         print("Press a key")
         self.message = input(" -> ")
-    def store_data(self):
+    def store_data(self, stored_data_batches, stop_input):
         while not stop_input:
             while len(self.data_batch) < 1000:
                 self.mySocket.send(self.message.encode())
@@ -30,6 +32,15 @@ class DataFromSocket:
                 if single_data != "\r\n":
                     self.data_batch.append(single_data)
             stored_data_batches.append(self.data_batch)
+
+
+def push_random_data(stored_data_batches, stop_input):
+    while not stop_input.value:
+        list_to_push = []
+        for _ in range(100):
+            list_to_push.append(random.randint(0,100))
+        stored_data_batches.put(list_to_push)
+
 
 if __name__ == "__main__":
     raw_data = DataFromSocket()
