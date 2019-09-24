@@ -4,6 +4,7 @@ import socket
 # TODO Watch https://www.youtube.com/watch?v=GqHLztqy0PU (end)
 import time
 
+import numpy as np
 
 
 class DataFromSocket:
@@ -36,9 +37,10 @@ class DataFromSocket:
 
 def push_random_data(stored_data_batches, stop_input):
     while not stop_input.value:
-        list_to_push = []
-        for _ in range(100):
-            list_to_push.append(random.randint(0,100))
+        # list_to_push = []
+        list_to_push = np.sin(np.arange(100))
+        # for _ in range(100):
+        #     list_to_push.append(random.randint(0,100))
         stored_data_batches.put(list_to_push)
 
 
