@@ -9,16 +9,14 @@ Threads:
     3. It analyzes the frequency spectrum as the input to feed the ML algorithm and to predict the label (to move
     the robot arm)
 """
-from multiprocessing import Queue, Process, Value, Array
+from multiprocessing import Queue, Process, Value
 
-from lib.frequency_spectrum import generate_spectra
-from lib.retrieve_data.retrieve_data_socket import push_random_data, DataFromSocket
+from lib.frequency_spectrum.frequency_spectrum import generate_spectra
+from lib.retrieve_data.retrieve_data_socket import push_random_data
 
-stop_input = Value('i')
-
-
-if __name__ == '__main__':
+def control_robot_hand():
     # raw_data = DataFromSocket()
+    stop_input = Value('i')
     stop_input.value = 0
     # stored_data_batches = Array('d', 20)
     stored_data_batches = Queue()

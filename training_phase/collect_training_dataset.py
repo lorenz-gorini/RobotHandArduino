@@ -21,8 +21,8 @@ class TrainingDataset:
         pass
 
 class TrainingFingers(TrainingDataset):
-    def __init__(self, action_label):
-        super().__init__(action_label)
+    def __init__(self, action_label, finger_label):
+        super().__init__(action_label, finger_label)
 
 class TrainingHand(TrainingDataset):
     pass

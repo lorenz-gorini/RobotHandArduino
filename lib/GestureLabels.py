@@ -12,6 +12,10 @@ action_ids = {
     "open": 0,
     "close": 1
 }
+hand_ids = {
+    "right": 0,
+    "left": 1
+}
 
 class Fingers(Enum):
     thumb = finger_ids["thumb"]
@@ -21,6 +25,9 @@ class Fingers(Enum):
     pinky = finger_ids["pinky"]
     all = finger_ids["all"]
 
+class Hands(Enum):
+    right = hand_ids["right"]
+    left = hand_ids["left"]
 
 class Action(Enum):
     close = action_ids["open"]
@@ -29,5 +36,6 @@ class Action(Enum):
 class GestureLabels:
 
     @staticmethod
-    def get_gesture_label(action, finger):
-        return finger + action*10
+    def get_gesture_label(action, moving_part):
+        return moving_part + action*10
+
