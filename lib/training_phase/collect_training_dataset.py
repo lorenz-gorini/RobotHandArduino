@@ -6,25 +6,15 @@ For every label we will record the data and put it in a separate folder dependin
 # TODO: INSTEAD, WE JUST COLLECT THE DATA AND STORE THEM IN THE CORRECT FOLDER! \\dataset\\{label}
 from enum import Enum
 
+from lib.GestureLabels import GestureLabels, Action, Fingers
 
-class Fingers(Enum):
-    thumb = 0
-    index = 1
-    middle = 2
-    ring = 3
-    pinky = 4
-    all = 5
-
-class Action(Enum):
-    close = 0
-    open = 1
 
 class TrainingDataset:
 
     def __init__(self, action: int, finger: int):
         self.action = action
         self.finger = finger
-        self.label = action * finger
+        self.label = GestureLabels.get_gesture_label(action, finger)
     def collect(self):
         print(f"Lift the {self.finger_num}")
     def categorize(self, label):
