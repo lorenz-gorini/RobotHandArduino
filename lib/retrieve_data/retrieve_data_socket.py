@@ -19,20 +19,21 @@ class DataFromSocket:
     def __init__(self, host="192.168.2.55", port=23):
         self.host = host
         self.port = port
-
+        # Create connection to the socket
         self.mySocket = socket.socket()
         self.mySocket.connect((self.host, self.port))
         self.data_batch = []
         print("Press a key")
         self.message = input(" -> ")
     def store_data(self, stored_data_batches, stop_input):
-        while not stop_input:
+        while not stop_input.value:
+            # Create batches
             while len(self.data_batch) < 1000:
                 self.mySocket.send(self.message.encode())
                 single_data = self.mySocket.recv(2048).decode()
                 if single_data != "\r\n":
                     self.data_batch.append(single_data)
-            stored_data_batches.append(self.data_batch)
+            stored_data_batches.put(self.data_batch)
 
 
 def push_random_data(stored_data_batches, stop_input):
