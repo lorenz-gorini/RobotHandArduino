@@ -1,37 +1,44 @@
 from enum import Enum
 
-finger_ids = {
-    "thumb": 0,
-    "index": 1,
-    "middle": 2,
-    "ring": 3,
-    "pinky": 4,
-    "all": 5
-}
-action_ids = {
-    "open": 0,
-    "close": 1
-}
-hand_ids = {
-    "right": 0,
-    "left": 1
-}
+finger_ids = [
+    "thumb",
+    "index",
+    "middle",
+    "ring",
+    "pinky",
+    "all"
+]
+hand_ids = [
+    "right",
+    "left"
+]
+moving_part_ids = finger_ids
+action_ids = [
+    "open",
+    "close"
+]
+
 
 class Fingers(Enum):
-    thumb = finger_ids["thumb"]
-    index = finger_ids["index"]
-    middle = finger_ids["middle"]
-    ring = finger_ids["ring"]
-    pinky = finger_ids["pinky"]
-    all = finger_ids["all"]
+
+    thumb = finger_ids[0]
+    index = finger_ids[1]
+    middle = finger_ids[2]
+    ring = finger_ids[3]
+    pinky = finger_ids[4]
+    all = finger_ids[5]
+
+    def get_all(self):
+        return finger_ids
+
 
 class Hands(Enum):
-    right = hand_ids["right"]
-    left = hand_ids["left"]
+    right = hand_ids[0]
+    left = hand_ids[1]
 
 class Action(Enum):
-    close = action_ids["open"]
-    open = action_ids["close"]
+    open = action_ids[0]
+    close = action_ids[1]
 
 class GestureLabels:
 
