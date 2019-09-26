@@ -18,7 +18,7 @@ action_ids = [
     "close"
 ]
 
-
+# I may even think that the user is able to add new actions! but it could be a mess
 class Fingers(Enum):
 
     thumb = finger_ids[0]
