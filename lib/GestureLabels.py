@@ -48,5 +48,5 @@ class GestureLabels:
         # Integrated hash function is not consistent throughout the processes and we need
         # something that will be replicated always (label stays the same).
         # Infact a dictionary is exactly hashing!!!
-        return moving_part + action
+        return moving_part + action*100
 
