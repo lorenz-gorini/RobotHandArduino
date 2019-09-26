@@ -1,6 +1,6 @@
 from multiprocessing import Queue, Process, Value
 
-from lib.GestureLabels import action_ids, moving_part_ids
+from lib.GestureLabels import action_ids, moving_part_ids, GestureLabels
 from lib.frequency_spectrum.frequency_spectrum import generate_spectra
 from lib.retrieve_data.retrieve_data_socket import push_random_data
 
@@ -13,12 +13,16 @@ def start_training():
     stored_spectrum_batches = Queue()
     for train_action in action_ids:
         for train_moving_part in moving_part_ids:
+            # GestureLabels.get_gesture_label(train_action,train_moving_part)
             # TODO Uncomment this when connecting the sccket
             # retrieve_data_process = Process(target=raw_data.store_data, args=(stored_data_batches, stop_input))
             retrieve_data_process = Process(target=push_random_data, args=(stored_data_batches, stop_input))
             analyze_data_process = Process(target=generate_spectra, args=(stored_data_batches, stored_spectrum_batches,
                                                                           stop_input))
-            start_training_process = Process(target=start_training, args=(stored_spectrum_batches, stop_input))
+            start_training_process = Process(target=start_training, args=(stored_spectrum_batches, stop_input,
+                                                                          train_action, train_moving_part))
+            # TODO Insert a booloan to distiguish is_collecting ("is_labeling"/"controlling" otherwise) or not.
+            #  In that case it has to stop and register data (is it really different???)
             retrieve_data_process.start()
             analyze_data_process.start()
             start_training_process.start()

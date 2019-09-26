@@ -1,4 +1,5 @@
 from enum import Enum
+import hashlib
 
 finger_ids = [
     "thumb",
@@ -12,7 +13,7 @@ hand_ids = [
     "right",
     "left"
 ]
-moving_part_ids = finger_ids
+moving_part_ids = finger_ids.extend(hand_ids)
 action_ids = [
     "open",
     "close"
@@ -48,5 +49,8 @@ class GestureLabels:
         # Integrated hash function is not consistent throughout the processes and we need
         # something that will be replicated always (label stays the same).
         # Infact a dictionary is exactly hashing!!!
-        return moving_part + action*100
+        # return moving_part + action*100
 
+        hash_object = hashlib.sha256((moving_part + action*100).encode('UTF-8'))
+        hex_dig = hash_object.hexdigest()
+        return (hex_dig)
