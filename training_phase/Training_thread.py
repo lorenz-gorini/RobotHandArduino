@@ -1,6 +1,6 @@
 from multiprocessing import Queue, Process, Value
 
-from lib.GestureLabels import action_ids
+from lib.GestureLabels import action_ids, moving_part_ids
 from lib.frequency_spectrum.frequency_spectrum import generate_spectra
 from lib.retrieve_data.retrieve_data_socket import push_random_data
 
@@ -12,7 +12,7 @@ def start_training():
     stored_data_batches = Queue()
     stored_spectrum_batches = Queue()
     for train_action in action_ids:
-        for train_moving_part in
+        for train_moving_part in moving_part_ids:
             # TODO Uncomment this when connecting the sccket
             # retrieve_data_process = Process(target=raw_data.store_data, args=(stored_data_batches, stop_input))
             retrieve_data_process = Process(target=push_random_data, args=(stored_data_batches, stop_input))

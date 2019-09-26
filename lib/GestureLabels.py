@@ -43,6 +43,10 @@ class Action(Enum):
 class GestureLabels:
 
     @staticmethod
-    def get_gesture_label(action, moving_part):
-        return moving_part + action*10
+    def get_gesture_label(action:str, moving_part:str):
+        # Hashing is too slow. It is better to use a dictionary with indexes.
+        # Integrated hash function is not consistent throughout the processes and we need
+        # something that will be replicated always (label stays the same).
+        # Infact a dictionary is exactly hashing!!!
+        return moving_part + action
 
