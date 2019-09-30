@@ -13,15 +13,19 @@ hand_ids = [
     "right",
     "left"
 ]
-moving_parts = [
-    "hand",
-    "wrist"
-]
+# moving_parts.keys will always return lists of the possible things to do...
+# even though this may not be the perfect implementation
+moving_parts = {
+    "hand": { "open": 0, "close": 1},
+    "wrist": { "move_left":0, "move_right":1, "move_up":2, "move_down": 3},
+    "arm": 2,
+    "finger": { "open": {"thumb": 0, "index": 1, ".....": 2}, "close": {"thumb": 0, "index": 1, ".....": 2}},
+}
 moving_part_ids = finger_ids.extend(hand_ids)
-action_ids = [
-    "open",
-    "close"
-]
+action_ids = {
+    "open": 0,
+    "close": 1
+}
 
 # I may even think that the user is able to add new actions! but it could be a mess
 class Fingers(Enum):
@@ -40,6 +44,11 @@ class Fingers(Enum):
 class Hands(Enum):
     right = hand_ids[0]
     left = hand_ids[1]
+
+class BodyParts(Enum):
+    hand = "hand"
+    wrist = "wrist"
+    arm = "arm"
 
 class Action(Enum):
     open = action_ids[0]

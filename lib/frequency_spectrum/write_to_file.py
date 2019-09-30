@@ -11,3 +11,4 @@ Append to this CSV file
 """
 
 def write_to_file():
+    pass
