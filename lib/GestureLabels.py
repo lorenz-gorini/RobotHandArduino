@@ -13,6 +13,10 @@ hand_ids = [
     "right",
     "left"
 ]
+moving_parts = [
+    "hand",
+    "wrist"
+]
 moving_part_ids = finger_ids.extend(hand_ids)
 action_ids = [
     "open",
