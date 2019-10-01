@@ -25,7 +25,7 @@ class DataFromSocket:
         self.data_batch = []
         print("Press a key")
         self.message = input(" -> ")
-    def store_data(self, stored_data_batches, stop_input):
+    def store_data(self, stored_data_batches, is_training, stop_input):
         while not stop_input.value:
             # Create batches
             while len(self.data_batch) < 1000:
@@ -34,6 +34,9 @@ class DataFromSocket:
                 if single_data != "\r\n":
                     self.data_batch.append(single_data)
             stored_data_batches.put(self.data_batch)
+            # Consider only the first batch
+            if is_training.value:
+                stop_input.value = 1
 
 
 def push_random_data(stored_data_batches, stop_input):

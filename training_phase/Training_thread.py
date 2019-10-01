@@ -51,13 +51,13 @@ def start_training():
 
 def ask_for_user_input():
     print("Tell me what you want to train next")
-    train_action = input(f"Position {[f'{c}' for c in action_ids]}")
+    train_action = input(f"Positions: \n{[f'{i}. {list(moving_parts.keys())[i]},  ' for i in range(len(moving_parts.keys()))]}")
     if train_action in  {"esc","Esc","ESC"}:
         return None, None, None
 
     # TODO: Improve these following lines for more details about the action!
     #  I may implement a recursive function to get to the best detail for the action. Going deeper into the dictionary
-    train_moved_part = input(f"Moving Part {[f'{c}' for c in moving_parts.keys()]}")
+    train_moved_part = train_action = input(f"Positions: \n{[f'{i}. {list(moving_parts[0].keys())[i]},  ' for i in range(len(moving_parts['hand'].keys()))]}")
     # if train_moved_part == moving_parts[train_action]:
     #     train_detail_part = input(f"Moving Finger {[f'{c}' for c in finger_ids]}")
 

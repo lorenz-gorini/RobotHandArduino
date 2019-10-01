@@ -2,11 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def transform_to_spectra(stored_data_batches, stored_spectrum_batches, frequency_batches, stop_input):
+def transform_to_spectra(stored_data_batches, stored_spectrum_batches, frequency_batches):
 
-    while not stop_input.value:
-
-        data_to_analyze = stored_data_batches.get()
+    data_to_analyze = stored_data_batches.get()
+    while data_to_analyze:
 
         data_to_analyze = np.array(data_to_analyze)
         spectrum_batch = np.fft.fft(np.sin(data_to_analyze))
@@ -16,6 +15,7 @@ def transform_to_spectra(stored_data_batches, stored_spectrum_batches, frequency
         frequency_batches.put(freq)
         stored_spectrum_batches.put(spectrum_batch)
 
+        data_to_analyze = stored_data_batches.get()
 
 
 #
