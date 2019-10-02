@@ -34,17 +34,19 @@ class DataFromSocket:
                 if single_data != "\r\n":
                     self.data_batch.append(single_data)
             stored_data_batches.put(self.data_batch)
-            # Consider only the first batch
+            # Consider only the first batch, if this is just for training
             if is_training.value:
                 stop_input.value = 1
 
 
 def push_random_data(stored_data_batches, stop_input):
     while not stop_input.value:
-        # list_to_push = []
+        # this is a function
         list_to_push = np.sin(np.arange(100))
-        # for _ in range(100):
-        #     list_to_push.append(random.randint(0,100))
+        # these are random
+            # list_to_push = []
+            # for _ in range(100):
+            #     list_to_push.append(random.randint(0,100))
         stored_data_batches.put(list_to_push)
 
 
