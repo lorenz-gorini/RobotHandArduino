@@ -10,17 +10,22 @@ Lebels = hand movement
 Append to this CSV file
 """
 import csv
+import numpy as np
 
 def write_to_file(visualized_freq_batches, visualized_spectrum_batches,
                                                   train_action, train_moving_part):
 
     with open('employee_file.csv', mode='w') as employee_file:
-        employee_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        my_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         frequencies = visualized_freq_batches.get()
-        employee_writer.writerow(frequencies.extend(['train_action', 'train_moving_part']))
+        b = np.array(['train_action', 'train_moving_part'])
+        first_row = np.hstack([frequencies,b])
+        my_writer.writerow(first_row)
         data_to_write = visualized_spectrum_batches.get()
-        while data_to_write:
-            employee_writer.writerow(data_to_write.extend([train_action, train_moving_part]))
+        while data_to_write != []:
+            b = np.array([train_action, train_moving_part])
+            row_to_write = np.hstack([data_to_write, b])
+            my_writer.writerow(row_to_write)
             data_to_write = visualized_spectrum_batches.get()
 
 

@@ -49,7 +49,7 @@ def push_random_data(stored_data_batches, stop_input, is_training):
             #     list_to_push.append(random.randint(0,100))
         stored_data_batches.put(list_to_push)
         # Consider only the first batch, if this is just for training
-        if is_training.value:
+        if is_training:
             stop_input.value = 1
 
 
