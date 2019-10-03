@@ -14,7 +14,7 @@ def visualize_spectra(stored_spectrum_batches, visualized_spectrum_batches, freq
 
         data_to_visualize = stored_spectrum_batches.get()
         freq = frequency_batches.get()
-        if not data_to_visualize:
+        if data_to_visualize == []:
             global is_queue_finished
             is_queue_finished = True
         ax1.clear()

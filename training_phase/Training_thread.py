@@ -25,7 +25,8 @@ def start_training():
         # GestureLabels.get_gesture_label(train_action,train_moving_part)
         # TODO Uncomment this when connecting the socket
         # retrieve_data_process = Process(target=raw_data.store_data, args=(stored_data_batches, stop_input))
-        retrieve_data_process = mp.Process(target=push_random_data, args=(stored_data_batches, stop_input))
+        retrieve_data_process = mp.Process(target=push_random_data, args=(stored_data_batches, stop_input,
+                                                                          is_training))
         analyze_data_process = mp.Process(target=transform_to_spectra,
                                           args=(stored_data_batches, stored_spectrum_batches, frequency_batches))
         visualize_data_process = mp.Process(target=visualize_spectra,
