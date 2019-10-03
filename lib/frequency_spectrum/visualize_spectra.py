@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import time
 
+
+
 def visualize_spectra(stored_spectrum_batches, visualized_spectrum_batches, frequency_batches,
                       visualized_freq_batches):
     fig = plt.figure()
@@ -13,7 +15,8 @@ def visualize_spectra(stored_spectrum_batches, visualized_spectrum_batches, freq
         data_to_visualize = stored_spectrum_batches.get()
         freq = frequency_batches.get()
         if not data_to_visualize:
-            global is_queue_finished = True
+            global is_queue_finished
+            is_queue_finished = True
         ax1.clear()
         ax1.plot(freq, data_to_visualize.real, freq, data_to_visualize.imag)
         visualized_spectrum_batches.put(data_to_visualize)

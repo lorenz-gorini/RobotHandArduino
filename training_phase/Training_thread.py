@@ -20,16 +20,14 @@ def start_training():
     frequency_batches = mp.Queue()
     visualized_freq_batches = mp.Queue()
 
-    train_action, train_moving_part, train_detail_part = ask_for_user_input()
+    train_action, train_moving_part = ask_for_user_input()  # , train_detail_part
     while train_action:
         # GestureLabels.get_gesture_label(train_action,train_moving_part)
         # TODO Uncomment this when connecting the socket
         # retrieve_data_process = Process(target=raw_data.store_data, args=(stored_data_batches, stop_input))
-        retrieve_data_process = mp.Process(target=push_random_data, args=(stored_data_batches, stop_input,
-                                                                          is_training))
+        retrieve_data_process = mp.Process(target=push_random_data, args=(stored_data_batches, stop_input))
         analyze_data_process = mp.Process(target=transform_to_spectra,
-                                          args=(stored_data_batches, stored_spectrum_batches, train_action,
-                                                train_moving_part))
+                                          args=(stored_data_batches, stored_spectrum_batches, frequency_batches))
         visualize_data_process = mp.Process(target=visualize_spectra,
                                             args=(stored_spectrum_batches, visualized_spectrum_batches,
                                                   frequency_batches, visualized_freq_batches))
@@ -56,7 +54,7 @@ def start_training():
         visualize_data_process.join()
         write_to_file_process.join()
         print("Stored. It will be very useful for training!")
-        train_action, train_moving_part, train_detail_part = ask_for_user_input()
+        train_action, train_moving_part = ask_for_user_input()  # , train_detail_part
 
 def ask_for_user_input():
     print("Tell me what you want to train next")
@@ -66,7 +64,9 @@ def ask_for_user_input():
 
     # TODO: Improve these following lines for more details about the action!
     #  I may implement a recursive function to get to the best detail for the action. Going deeper into the dictionary
-    train_moved_part = train_action = input(f"Positions: \n{[f'{i}. {list(moving_parts[0].keys())[i]},  ' for i in range(len(moving_parts['hand'].keys()))]}")
+    train_moved_part = train_action = input(f"""Positions: \n{[f"{i}. {list(moving_parts['hand'].keys())[i]},  "
+                                                               f"" for i in 
+    range(len(moving_parts['hand'].keys()))]}""")
     # if train_moved_part == moving_parts[train_action]:
     #     train_detail_part = input(f"Moving Finger {[f'{c}' for c in finger_ids]}")
 

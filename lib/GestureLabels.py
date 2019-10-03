@@ -51,8 +51,8 @@ class BodyParts(Enum):
     arm = "arm"
 
 class Action(Enum):
-    open = action_ids[0]
-    close = action_ids[1]
+    open = action_ids["open"]
+    close = action_ids["close"]
 
 class GestureLabels:
 

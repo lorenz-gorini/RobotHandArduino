@@ -16,7 +16,8 @@ def write_to_file(visualized_freq_batches, visualized_spectrum_batches,
 
     with open('employee_file.csv', mode='w') as employee_file:
         employee_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        employee_writer.writerow(visualized_freq_batches.extend(['train_action', 'train_moving_part']))
+        frequencies = visualized_freq_batches.get()
+        employee_writer.writerow(frequencies.extend(['train_action', 'train_moving_part']))
         data_to_write = visualized_spectrum_batches.get()
         while data_to_write:
             employee_writer.writerow(data_to_write.extend([train_action, train_moving_part]))

@@ -5,7 +5,7 @@ import numpy as np
 def transform_to_spectra(stored_data_batches, stored_spectrum_batches, frequency_batches):
 
     data_to_analyze = stored_data_batches.get()
-    while data_to_analyze:
+    while data_to_analyze != []:
 
         data_to_analyze = np.array(data_to_analyze)
         spectrum_batch = np.fft.fft(np.sin(data_to_analyze))
