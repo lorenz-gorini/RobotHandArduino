@@ -10,12 +10,16 @@ Lebels = hand movement
 Append to this CSV file
 """
 import csv
+import os
+
 import numpy as np
+
+training_dataset_dir = ".\\training_phase\\dataset\\"
 
 def write_to_file(visualized_freq_batches, visualized_spectrum_batches,
                                                   train_action, train_moving_part):
 
-    with open('employee_file.csv', mode='w') as employee_file:
+    with open(os.path.join(training_dataset_dir,'collected_dataset'), mode='w') as employee_file:
         my_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         frequencies = visualized_freq_batches.get()
         b = np.array(['train_action', 'train_moving_part'])

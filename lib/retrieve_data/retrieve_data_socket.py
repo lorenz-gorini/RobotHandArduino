@@ -42,12 +42,13 @@ class DataFromSocket:
 def push_random_data(stored_data_batches, stop_input, is_training):
     while not stop_input.value:
         # this is a function
-        list_to_push = np.sin(np.arange(100))+random.randint(0,5)
+        list_to_push = np.sin(np.arange(256))+random.randint(0,5)
         # these are random
             # list_to_push = []
             # for _ in range(100):
             #     list_to_push.append(random.randint(0,100))
         stored_data_batches.put(list_to_push)
+        time.sleep(1)
         # Consider only the first batch, if this is just for training
         # if is_training:
         #     stop_input.value = 1
