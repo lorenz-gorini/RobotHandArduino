@@ -87,7 +87,7 @@ class DataFromSocket:
                 stop_input.value = 1
         self.mySocket.close()
 
-
+# TODO Study how to confirm for the training datum to be stored
 
 
 
