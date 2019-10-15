@@ -63,7 +63,7 @@ def ask_for_user_input():
     train_action = input(f"Positions: \n{[f'{i}. {list(moving_parts.keys())[i]},  ' for i in range(len(moving_parts.keys()))]}"
                          f"\n Esc : finish training")
     if train_action.lower() == "esc":
-        return None, None, None
+        return None, None
 
     # TODO: Improve these following lines for more details about the action!
     #  I may implement a recursive function to get to the best detail for the action. Going deeper into the dictionary

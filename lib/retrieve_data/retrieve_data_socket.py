@@ -24,8 +24,8 @@ class RetrieveDataSocket(GenericProcess):
 
     def run(self):
         while not self.exit.is_set():
-            # self._push_random_data()
-            self._get_data_from_socket()
+            self._push_random_data()
+            # self._get_data_from_socket()
         print("You exited from Socket Connection!")
 
     def _get_data_from_socket(self):
@@ -88,8 +88,6 @@ class DataFromSocket:
         self.mySocket.close()
 
 # TODO Study how to confirm for the training datum to be stored
-
-
 
 if __name__ == "__main__":
     raw_data = DataFromSocket()
