@@ -23,7 +23,7 @@ def start_training():
     train_action, train_moving_part = ask_for_user_input()  # , train_detail_part
     while train_action:
         confirm_data_input = ''
-        while confirm_data_input not in {'y','Y'}:
+        while confirm_data_input.lower() != 'y':
             # GestureLabels.get_gesture_label(train_action,train_moving_part)
             # TODO Uncomment this when connecting the socket
             # retrieve_data_process = mp.Process(target=raw_data.store_data, args=(stored_data_batches, stop_input))
