@@ -32,27 +32,23 @@ import multiprocessing as mp
 #
 #     an1 = animation.FuncAnimation(fig, animate, interval=300, blit=True)
 #     plt.show()
+from lib.GenericProcess import GenericProcess
 
 
-
-class VisualizeSpectraProcess(mp.Process):
+class VisualizeSpectraProcess(GenericProcess):
     def __init__(self, stored_spectrum_batches: mp.Queue, visualized_spectrum_batches: mp.Queue,
                                                       frequency_batches: mp.Queue, visualized_freq_batches: mp.Queue):
-        mp.Process.__init__(self)
+        super().__init__()
         self.stored_spectrum_batches = stored_spectrum_batches
         self.visualized_spectrum_batches = visualized_spectrum_batches
         self.frequency_batches = frequency_batches
         self.visualized_freq_batches = visualized_freq_batches
-        self.exit = mp.Event()
 
     def run(self):
         while not self.exit.is_set():
             self._visualize_spectra()
         print("You exited!")
 
-    def shutdown(self):
-        print("Shutdown initiated")
-        self.exit.set()
 
     def _visualize_spectra(self):
 
@@ -127,4 +123,4 @@ if __name__ == "__main__":
         stop_value = 256.*((i+1)/10.)
         stored_spectrum_batches.append(np.arange(0, stop_value, (i+1)/10.))
         frequency_batches.append(np.arange(0, 256, 1))
-    visualize_spectra_TEST(stored_spectrum_batches, frequency_batches)
+    # visualize_spectra_TEST(stored_spectrum_batches, frequency_batches)

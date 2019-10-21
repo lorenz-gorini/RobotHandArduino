@@ -6,7 +6,7 @@ import time
 import multiprocessing as mp
 import numpy as np
 
-from lib.generic_process import GenericProcess
+from lib.GenericProcess import GenericProcess
 
 TESTING_HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
 TESTING_PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
@@ -35,6 +35,7 @@ class RetrieveDataSocket(GenericProcess):
         self.shutdown()
 
     def _push_random_data(self):
+        # THIS IS JUST A TEST FUNCTION
         while not self.stop_input.value:
             # this is a function
             list_to_push = np.sin(np.arange(256))+random.randint(0,5)
@@ -68,7 +69,7 @@ class DataFromSocket:
         self.mySocket.connect((self.host, self.port))
         self.data_batch = []
         print("Press a key when you are ready")
-        self.message = "as"
+        self.message = "start"  # Line to start sending message
 
     def store_data(self, stored_data_batches, stop_input, is_training):
 
@@ -76,16 +77,22 @@ class DataFromSocket:
             self.mySocket.send(self.message.encode())
             # Create batches
             self.data_batch = []
+            # This is to gather the full number is being sent by the socket until the chars "/r/n"
+            complete_sing_data = []
             while len(self.data_batch) < 256:
                 single_data = self.mySocket.recv(1024).decode()
-                if single_data != "\r\n":
-                    self.data_batch.append(single_data)
+                for i in range(len(single_data)):
+                    if single_data[i] == "\r" and single_data[i+1] == "\n" :
+                        self.data_batch.append(float(''.join(complete_sing_data)))
+                        complete_sing_data = []
+                    else:
+                        complete_sing_data.append(single_data[i])
             print(self.data_batch)
             stored_data_batches.put(self.data_batch)
             # Consider only the first batch, if this is just for training
             if is_training:
                 stop_input.value = 1
-                self.mySocket.sendall(str("esc").encode())
+                self.mySocket.sendall(str("exit").encode())
             else:
                 self.mySocket.sendall(str("continue").encode())
         self.mySocket.close()

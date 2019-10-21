@@ -1,21 +1,35 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import multiprocessing as mp
+from lib.GenericProcess import GenericProcess
 
 
-def transform_to_spectra(stored_data_batches, stored_spectrum_batches, frequency_batches):
+class TransformSpectraProcess(GenericProcess):
+    def __init__(self, stored_data_batches: mp.Queue, stored_spectrum_batches: mp.Queue, frequency_batches: mp.Queue):
+        super().__init__()
+        self.stored_data_batches = stored_data_batches
+        self.stored_spectrum_batches = stored_spectrum_batches
+        self.frequency_batches = frequency_batches
 
-    data_to_analyze = stored_data_batches.get()
-    while data_to_analyze != []:
+    def run(self):
+        while not self.exit.is_set():
+            self.transform_to_spectra()
+        print("You exited!")
 
-        data_to_analyze = np.array(data_to_analyze)
-        spectrum_batch = np.fft.fft(np.sin(data_to_analyze))
-        freq = np.fft.fftfreq(data_to_analyze.shape[-1])
+    def transform_to_spectra(self):
 
-        print(spectrum_batch)
-        frequency_batches.put(freq)
-        stored_spectrum_batches.put(spectrum_batch)
+        while not self.stored_data_batches.empty():
 
-        data_to_analyze = stored_data_batches.get()
+            data_to_analyze = self.stored_data_batches.get()
+            data_to_analyze = np.array(data_to_analyze)
+            spectrum_batch = np.fft.fft(np.sin(data_to_analyze))
+            freq = np.fft.fftfreq(data_to_analyze.shape[-1])
+
+            print(spectrum_batch)
+            self.frequency_batches.put(freq)
+            self.stored_spectrum_batches.put(spectrum_batch)
+
+        # The queue is empty so we shutdown the process
+        self.shutdown()
 
 
 #
