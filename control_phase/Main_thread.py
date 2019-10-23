@@ -24,8 +24,7 @@ def control_robot_hand():
     frequency_batches = mp.Queue()
     # retrieve_data_process = Process(target=raw_data.store_data, args=(stored_data_batches, stop_input))
     retrieve_data_process = RetrieveDataSocket(stored_data_batches, stop_input)
-    analyze_data_process = TransformSpectraProcess(stored_data_batches, stored_spectrum_batches,
-                                                           frequency_batches)
+    analyze_data_process = TransformSpectraProcess(stored_data_batches, stored_spectrum_batches)
     retrieve_data_process.start()
     analyze_data_process.start()
     # while not stop_input.value:

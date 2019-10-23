@@ -4,7 +4,7 @@ class GenericProcess(mp.Process):
 
     def __init__(self):
         self.exit = mp.Event()
-        mp.Process.__init__(self)
+        super().__init__()
 
     def run(self):
         pass
