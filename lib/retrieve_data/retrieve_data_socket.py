@@ -62,17 +62,27 @@ class DataFromSocket:
 
     def __init__(self, host=HOST_URL, port=HOST_PORT):
 
-        self.host = host
-        self.port = port
-        # Create connection to the socket
-        self.mySocket = socket.socket()
-        self.mySocket.connect((self.host, self.port))
-        self.data_batch = []
-        print("Press a key when you are ready")
-        self.message = "start"  # Line to start sending message
+        is_connected = False
+        i = 0
+        while not is_connected and i<5:
+            try:
+                self.host = host
+                self.port = port
+                # Create connection to the socket
+                self.mySocket = socket.socket()
+                self.mySocket.connect((self.host, self.port))
+                self.data_batch = []
+                is_connected = True
+                print("Press a key when you are ready")
+                self.message = "start"  # Line to start sending message
+            except ConnectionRefusedError:
+                i += 1
+                print(f"No connection possible. This is the number {i} connection try. Retrying..")
+                continue
 
     def store_data(self, stored_data_batches, is_training):
 
+        j = 0
         while not global_values.total_shutdown.is_set():
 
             self.mySocket.send(self.message.encode())
@@ -91,7 +101,8 @@ class DataFromSocket:
             print(self.data_batch)
             stored_data_batches.put(self.data_batch)
             # Consider only the first batch, if this is just for training
-            if is_training:
+            j += 1      # TODO Delete this just for testing!!!
+            if is_training or j >= 5:
                 self.mySocket.sendall(str("exit").encode())
                 stored_data_batches.put((global_values.queue_final_values, global_values.queue_final_values))
                 break

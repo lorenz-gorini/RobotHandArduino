@@ -44,7 +44,7 @@ def start_training():
             spectra_process = TransformSpectraProcess(raw_data_batches, spectrum_batches)
             visualize_data_process = VisualizeSpectraProcess(spectrum_batches, visualized_batches)
             write_to_file_process = WriteFileProcess(visualized_batches, train_action, train_moving_part)
-            #
+
             retrieve_data_process.start()
             spectra_process.start()
             visualize_data_process.start()
