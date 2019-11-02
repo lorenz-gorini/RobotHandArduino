@@ -16,39 +16,36 @@ HOST_URL = "192.168.2.55"
 HOST_PORT = 23
 
 class RetrieveDataSocket(GenericProcess):
-    def __init__(self, stored_data_batches:mp.Queue, is_training:bool = False):
+    def __init__(self, raw_data_batches:mp.Queue, is_training:bool = False):
 
-        self.stored_data_batches = stored_data_batches
+        self.raw_data_batches = raw_data_batches
         self.is_training = is_training
-        GenericProcess.__init__(self)
+        super().__init__()
 
     def run(self):
         while not self.exit.is_set():
-            # self._push_random_data()
-            self._get_data_from_socket()
+            self._push_random_data()
+            # self._get_data_from_socket()
         print("You exited from Socket Connection!")
 
     def _get_data_from_socket(self):
 
         get_from_socket = DataFromSocket(host=TESTING_HOST, port=TESTING_PORT)
-        get_from_socket.store_data(self.stored_data_batches, self.is_training)
+        get_from_socket.store_data(self.raw_data_batches, self.is_training)
         self.shutdown()
 
-    # def _push_random_data(self):
-    #     # THIS IS JUST A TEST FUNCTION
-    #     while not self.stop_input.value:
-    #         # this is a function
-    #         list_to_push = np.sin(np.arange(256))+random.randint(0,5)
-    #         # these are random
-    #             # list_to_push = []
-    #             # for _ in range(100):
-    #             #     list_to_push.append(random.randint(0,100))
-    #         self.stored_data_batches.put(list_to_push)
-    #         time.sleep(1)
-    #         # Consider only the first batch, if this is just for training
-    #         # if is_training:
-    #         #     stop_input.value = 1
-    #     self.shutdown()
+    def _push_random_data(self):
+        # THIS IS JUST A TEST FUNCTION
+        while not global_values.total_shutdown.is_set():
+            # this is a function
+            list_to_push = np.sin(np.arange(256))+random.randint(0, 5)
+            # these are random
+                # list_to_push = []
+                # for _ in range(100):
+                #     list_to_push.append(random.randint(0,100))
+            self.raw_data_batches.put(list_to_push)
+            time.sleep(1)
+        self.shutdown()
 
 
 class DataFromSocket:
@@ -80,7 +77,7 @@ class DataFromSocket:
                 print(f"No connection possible. This is the number {i} connection try. Retrying..")
                 continue
 
-    def store_data(self, stored_data_batches, is_training):
+    def store_data(self, raw_data_batches, is_training):
 
         j = 0
         while not global_values.total_shutdown.is_set():
@@ -99,12 +96,12 @@ class DataFromSocket:
                     else:
                         complete_sing_data.append(single_data[i])
             print(self.data_batch)
-            stored_data_batches.put(self.data_batch)
+            raw_data_batches.put(self.data_batch)
             # Consider only the first batch, if this is just for training
             j += 1      # TODO Delete this just for testing!!!
             if is_training or j >= 5:
                 self.mySocket.sendall(str("exit").encode())
-                stored_data_batches.put((global_values.queue_final_values, global_values.queue_final_values))
+                raw_data_batches.put((global_values.queue_final_values, global_values.queue_final_values))
                 break
             else:
                 self.mySocket.sendall(str("continue").encode())

@@ -3,7 +3,7 @@ import multiprocessing as mp
 
 from lib.GestureLabels import action_ids, finger_ids, moving_parts, moving_part_ids, GestureLabels
 from lib.frequency_spectrum.frequency_spectrum import TransformSpectraProcess
-from lib.frequency_spectrum.visualize_spectra import VisualizeSpectraProcess
+from lib.frequency_spectrum.visualize_spectra import VisualizeSpectraProcess, visualize_realtime_TEST
 from lib.frequency_spectrum.write_to_file import WriteFileProcess
 from lib.retrieve_data.retrieve_data_socket import RetrieveDataSocket
 
@@ -42,7 +42,10 @@ def start_training():
 
             retrieve_data_process = RetrieveDataSocket(raw_data_batches, is_training)
             spectra_process = TransformSpectraProcess(raw_data_batches, spectrum_batches)
-            visualize_data_process = VisualizeSpectraProcess(spectrum_batches, visualized_batches)
+            visualize_data_process = mp.Process(target=visualize_realtime_TEST, args=(spectrum_batches, visualized_batches))
+
+
+            # VisualizeSpectraProcess(spectrum_batches, visualized_batches)
             write_to_file_process = WriteFileProcess(visualized_batches, train_action, train_moving_part)
 
             retrieve_data_process.start()

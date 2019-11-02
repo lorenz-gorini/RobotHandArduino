@@ -7,7 +7,7 @@ from lib import global_values
 class TransformSpectraProcess(GenericProcess):
     def __init__(self, stored_data_batches: mp.Queue, spectrum_batches: mp.Queue):
         super().__init__()
-        self.stored_data_batches = stored_data_batches
+        self.raw_data_batches = stored_data_batches
         self.spectrum_batches = spectrum_batches
 
     def run(self):
@@ -18,10 +18,10 @@ class TransformSpectraProcess(GenericProcess):
     def transform_to_spectra(self):
 
         while not global_values.total_shutdown.is_set():
-            if self.spectrum_batches.empty():
+            if self.raw_data_batches.empty():
                 continue
             else:
-                data_to_analyze = self.stored_data_batches.get(timeout=5)
+                data_to_analyze = self.raw_data_batches.get(timeout=5)
                 if data_to_analyze is None:
                     break
                 else:
