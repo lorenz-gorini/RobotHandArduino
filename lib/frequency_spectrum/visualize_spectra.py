@@ -130,14 +130,15 @@ class AnimatedGraph():
         self.visualized_batches = visualized_batches
         # Create figure for plotting
         self.fig = plt.figure()
-        self.ax = plt.axis([-1, 1, -50, 50])
         self.sub_plot = self.fig.add_subplot(1, 1, 1)
+        self.ax = plt.axis([-1, 1, -50, 50])
+
 
     # This function is called periodically from FuncAnimation in animate_spectra
     def _animate(self, i):
         # If the queue is not empty, we update the plot with the new lists, otherwise it does nothing
-        if not stored_spectrum_batches.empty():
-            xs, ys = stored_spectrum_batches.get(timeout=5)
+        if not self.spectrum_batches.empty():
+            xs, ys = self.spectrum_batches.get(timeout=5)
             print("\"", xs, "\"")
             print('\n\n\n', ys)
             if xs is None and ys is None:
@@ -149,8 +150,8 @@ class AnimatedGraph():
                 plt.close()
             else:
                 # Draw x and y lists
-                self.ax.clear()
-                self.ax.plot(xs, ys)
+                self.sub_plot.clear()
+                self.sub_plot.plot(xs, ys)
                 self.visualized_batches.put((xs, ys))
                 print(xs)
                 # Format plot
@@ -161,7 +162,7 @@ class AnimatedGraph():
 
     def animate_spectra(self):
         # Set up plot to call animate() function periodically
-        self.anim_graph = animation.FuncAnimation(self.fig, self.animate, interval=global_values.animation_interval)
+        self.anim_graph = animation.FuncAnimation(self.fig, self._animate, interval=global_values.animation_interval)
                                 # , fargs=(freq_batch, data_to_visualize)
         plt.show()
 

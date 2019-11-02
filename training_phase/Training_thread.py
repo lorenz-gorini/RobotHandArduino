@@ -42,7 +42,7 @@ def start_training():
 
             retrieve_data_process = RetrieveDataSocket(raw_data_batches, is_training)
             spectra_process = TransformSpectraProcess(raw_data_batches, spectrum_batches)
-            visualize_data_process = mp.Process(target=visualize_realtime_TEST, args=(spectrum_batches, visualized_batches))
+            visualize_data_process = VisualizeSpectraProcess(spectrum_batches, visualized_batches) # mp.Process(target=visualize_realtime_TEST, args=(spectrum_batches, visualized_batches))
 
 
             # VisualizeSpectraProcess(spectrum_batches, visualized_batches)
