@@ -32,6 +32,7 @@ def start_training():
     action_input, moving_part_input = ask_for_user_input()  # TODO , train_detail_part
     train_action.value = action_input
     train_moving_part.value = moving_part_input
+
     while train_action.value is not None:
         confirm_data_input = ''
         while confirm_data_input.lower() != 'y':

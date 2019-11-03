@@ -9,7 +9,7 @@ Lebels = hand movement
 
 Append to this CSV file
 """
-import csv
+import csv as commaseparvalue
 import os
 
 import numpy as np
@@ -27,8 +27,11 @@ class WriteFileProcess(GenericProcess):
         self.visualized_batches = visualized_batches
         self.train_action = train_action
         self.train_moving_part = train_moving_part
-        self.employee_file = open(os.path.join(global_values.training_dataset_dir, 'collected_dataset.txt'), mode='w+')
-        self.my_writer = csv.writer(self.employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        self.dataset_file = open(os.path.join(global_values.training_dataset_dir, 'collected_dataset.txt'), mode='w+')
+        self.dataset_file.write("test2")
+        # TODO Try to avoid using csv module because there could be some name conflicts
+        #    or think and search about some other ways to write as csv (maybe pandas)
+        self.my_writer = commaseparvalue.writer(self.dataset_file, delimiter=',', quotechar='"', quoting=commaseparvalue.QUOTE_MINIMAL)
         self.is_first_row = True
 
     def run(self):
@@ -55,7 +58,7 @@ class WriteFileProcess(GenericProcess):
                     labels = np.array([self.train_action.value, self.train_moving_part.value])
                     row_to_write = np.hstack([data_to_write, labels])
                     self.my_writer.writerow(row_to_write)
-        self.employee_file.close()
+        self.dataset_file.close()
         self.shutdown()
 
     # data_to_analyze = stored_data_batches.get()
