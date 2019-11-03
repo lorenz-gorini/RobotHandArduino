@@ -27,7 +27,7 @@ class WriteFileProcess(GenericProcess):
         self.visualized_batches = visualized_batches
         self.train_action = train_action
         self.train_moving_part = train_moving_part
-        self.employee_file = open(os.path.join(global_values.training_dataset_dir, 'collected_dataset.txt'), mode='w')
+        self.employee_file = open(os.path.join(global_values.training_dataset_dir, 'collected_dataset.txt'), mode='w+')
         self.my_writer = csv.writer(self.employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         self.is_first_row = True
 
@@ -48,13 +48,14 @@ class WriteFileProcess(GenericProcess):
                 else:
                     if self.is_first_row:
                         labels = np.array(['train_action', 'train_moving_part'])
-                        first_row = np.hstack([data_to_write, labels])
+                        first_row = np.hstack([freq_batch, labels])
                         self.my_writer.writerow(first_row)
                         self.is_first_row = False
 
                     labels = np.array([self.train_action.value, self.train_moving_part.value])
                     row_to_write = np.hstack([data_to_write, labels])
                     self.my_writer.writerow(row_to_write)
+        self.employee_file.close()
         self.shutdown()
 
     # data_to_analyze = stored_data_batches.get()
