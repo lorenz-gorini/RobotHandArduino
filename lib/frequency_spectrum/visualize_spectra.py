@@ -31,51 +31,51 @@ import multiprocessing as mp
 from lib import global_values
 import datetime as dt
 
-def visualize_realtime_TEST(stored_spectrum_batches, visualized_spectrum_batches):
-    # Create figure for plotting
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    freq_batch, data_to_visualize = [], []
-
-    # This function is called periodically from FuncAnimation
-    def animate(i, xs, ys):
-        # If the queue is not empty, we update the plot with the new lists, otherwise we just plot the same thing
-        if not stored_spectrum_batches.empty():
-            xs, ys = stored_spectrum_batches.get(timeout=5)
-            print("\"", xs, "\"")
-            print('\n\n\n', ys)
-            if xs is None and ys is None:
-                # Waiting a bit for visualization of last graph and then closing
-                print("Visualizing plot")
-                time.sleep(5)
-                print("Closing plot")
-                plt.close()
-            else:
-                # Draw x and y lists
-                ax.clear()
-                ax.plot(xs, ys)
-                print(xs)
-                # Format plot
-                plt.xticks(rotation=45, ha='right')
-                plt.subplots_adjust(bottom=0.30)
-                plt.title('Signal Spectrum (FFT)')
-                plt.ylabel('Frequency')
-
-    # Set up plot to call animate() function periodically
-    ani = animation.FuncAnimation(fig, animate, fargs=(freq_batch, data_to_visualize), interval=100)
-    plt.show()
-
-
-
-
-
-def visualize_spectra_TEST(stored_spectrum_batches,  visualized_spectrum_batches):
-    fig = plt.figure()
-    sub_plot = fig.add_subplot(1, 1, 1)
-
-    ax = plt.axis([-1, 1, -50, 50])
-
-    AnimatedGraph(sub_plot, stored_spectrum_batches, visualized_spectrum_batches)
+# def visualize_realtime_TEST(stored_spectrum_batches, visualized_spectrum_batches):
+#     # Create figure for plotting
+#     fig = plt.figure()
+#     ax = fig.add_subplot(1, 1, 1)
+#     freq_batch, data_to_visualize = [], []
+#
+#     # This function is called periodically from FuncAnimation
+#     def animate(i, xs, ys):
+#         # If the queue is not empty, we update the plot with the new lists, otherwise we just plot the same thing
+#         if not stored_spectrum_batches.empty():
+#             xs, ys = stored_spectrum_batches.get(timeout=5)
+#             print("\"", xs, "\"")
+#             print('\n\n\n', ys)
+#             if xs is None and ys is None:
+#                 # Waiting a bit for visualization of last graph and then closing
+#                 print("Visualizing plot")
+#                 time.sleep(5)
+#                 print("Closing plot")
+#                 plt.close()
+#             else:
+#                 # Draw x and y lists
+#                 ax.clear()
+#                 ax.plot(xs, ys)
+#                 print(xs)
+#                 # Format plot
+#                 plt.xticks(rotation=45, ha='right')
+#                 plt.subplots_adjust(bottom=0.30)
+#                 plt.title('Signal Spectrum (FFT)')
+#                 plt.ylabel('Frequency')
+#
+#     # Set up plot to call animate() function periodically
+#     ani = animation.FuncAnimation(fig, animate, fargs=(freq_batch, data_to_visualize), interval=100)
+#     plt.show()
+#
+#
+#
+#
+#
+# def visualize_spectra_TEST(stored_spectrum_batches,  visualized_spectrum_batches):
+#     fig = plt.figure()
+#     sub_plot = fig.add_subplot(1, 1, 1)
+#
+#     ax = plt.axis([-1, 1, -50, 50])
+#
+#     AnimatedGraph(stored_spectrum_batches, visualized_spectrum_batches)
     # is_queue_finished = False
     #
     # ax = plt.axis([0, 256, 0, 256])
@@ -237,27 +237,27 @@ class AnimatedGraph():
 #                 return self.freq_signal_real, self.freq_signal_imag
 #         return
 
-# TODO All the function
-def visualize_raw_signal(stored_spectrum_batches, visualized_spectrum_batches, frequency_batches,
-                      visualized_freq_batches, stop_input):
-    fig = plt.figure()
-    ax1 = fig.add_subplot(1, 1, 1)
-
-    def animate(i):
-
-        data_to_visualize = stored_spectrum_batches.get()
-        freq = frequency_batches.get()
-
-        ax1.clear()
-        ax1.plot(freq, data_to_visualize.real, freq, data_to_visualize.imag)
-        visualized_spectrum_batches.put(data_to_visualize)
-        visualized_freq_batches.put(freq)
-
-    an1 = animation.FuncAnimation(fig, animate, interval=1)
-    plt.show()
-    while not stop_input:
-        time.sleep(0.05)
-    plt.close()
+# # TODO All the function
+# def visualize_raw_signal(stored_spectrum_batches, visualized_spectrum_batches, frequency_batches,
+#                       visualized_freq_batches, stop_input):
+#     fig = plt.figure()
+#     ax1 = fig.add_subplot(1, 1, 1)
+#
+#     def animate(i):
+#
+#         data_to_visualize = stored_spectrum_batches.get()
+#         freq = frequency_batches.get()
+#
+#         ax1.clear()
+#         ax1.plot(freq, data_to_visualize.real, freq, data_to_visualize.imag)
+#         visualized_spectrum_batches.put(data_to_visualize)
+#         visualized_freq_batches.put(freq)
+#
+#     an1 = animation.FuncAnimation(fig, animate, interval=1)
+#     plt.show()
+#     while not stop_input:
+#         time.sleep(0.05)
+#     plt.close()
 
 if __name__ == "__main__":
     stored_spectrum_batches = mp.Queue()
